@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, IsOptional, IsArray } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  IsArray,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateBookDto {
   @IsNotEmpty()
@@ -28,4 +34,14 @@ export class CreateBookDto {
   @IsOptional()
   @IsString()
   imageLarge: string;
+}
+
+export class bookCount {
+  @IsNotEmpty()
+  @IsNumber()
+  from: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  to: number;
 }

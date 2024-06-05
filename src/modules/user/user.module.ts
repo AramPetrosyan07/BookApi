@@ -1,15 +1,14 @@
+// user.module.ts
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/Schema/User.Schema';
 import {
   UserSettings,
   UserSettingsSchema,
 } from 'src/Schema/UserSettings.schema';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CustomJwtConfig } from 'src/config/jwt.config';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -23,17 +22,9 @@ import { CustomJwtConfig } from 'src/config/jwt.config';
         schema: UserSettingsSchema,
       },
     ]),
-    ConfigModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        secret: CustomJwtConfig.jwtSecret(configService),
-        signOptions: { expiresIn: '1h' },
-      }),
-      inject: [ConfigService],
-    }),
+    AuthModule, // Use AuthModule to get JWT functionality
   ],
   controllers: [UserController],
-  providers: [UserService, ConfigService],
+  providers: [UserService],
 })
 export class UserModule {}

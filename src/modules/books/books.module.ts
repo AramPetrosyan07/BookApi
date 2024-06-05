@@ -3,6 +3,7 @@ import { BooksService } from './books.service';
 import { BooksController } from './books.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Book, BookSchema } from 'src/Schema/Book.schema';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { Book, BookSchema } from 'src/Schema/Book.schema';
         schema: BookSchema,
       },
     ]),
+    AuthModule,
   ],
   controllers: [BooksController],
   providers: [BooksService],

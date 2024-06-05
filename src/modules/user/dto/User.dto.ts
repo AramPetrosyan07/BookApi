@@ -4,6 +4,8 @@ import {
   IsEmail,
   IsArray,
   IsOptional,
+  IsDateString,
+  MinLength,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -21,7 +23,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
-  passwordHash: string;
+  password: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -45,4 +47,32 @@ export class CreateUserDto {
   @IsOptional()
   @IsArray()
   notification: string[];
+}
+
+export class signUpUserDto {
+  @IsString()
+  fullName: string;
+
+  @IsString()
+  username: string;
+
+  @IsDateString()
+  dateOfBirth: string;
+
+  @IsString()
+  @MinLength(8)
+  password: string;
+
+  @IsEmail()
+  email: string;
+}
+
+export class LoginUserDto {
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
 }

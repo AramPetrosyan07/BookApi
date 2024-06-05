@@ -3,33 +3,34 @@ import {
   Controller,
   Get,
   Post,
+  Req,
   UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/User.dto';
+import { CreateUserDto, LoginUserDto } from './dto/User.dto';
 import { AuthGuard } from 'src/guards/authanticantion.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('signup')
   @UsePipes(new ValidationPipe())
   async register(@Body() createUserDto: CreateUserDto) {
-    return this.userService.register(createUserDto);
+    return this.userService.signUp(createUserDto);
   }
 
-  @Post('jwt')
-  async test(@Body() dto: any) {
-    console.log(dto);
-    return this.userService.test(dto);
+  @Post('signin')
+  @UsePipes(new ValidationPipe())
+  async guardCheck(@Body() dto: LoginUserDto) {
+    return this.userService.signIn(dto);
   }
-
-  @Get('jwt')
   @UseGuards(AuthGuard)
-  async guardCheck() {
-    return 'test';
+  @Get('auth')
+  async auth(@Req() req: Request) {
+    return this.userService.auth(req);
   }
 }
